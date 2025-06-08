@@ -48,7 +48,7 @@ function Dashboard({ user }) {
       <div className="dashboard-box">
         {user.role === "admin" ? (
           <>
-            <h2>🛠 Admin Dashboard</h2>
+            <h2> Admin Dashboard</h2>
             <ul>
               <li>Create & manage scenarios</li>
               <li>View CSR performance reports</li>
@@ -59,8 +59,8 @@ function Dashboard({ user }) {
         ) : (
           <>
             <h2>👨‍💼 CSR Dashboard</h2>
-              <button onClick={() => navigate("/chat")}>👉 Start Chat</button>
-              <button onClick={() => navigate("/feedback-history")}>📝 Feedback History</button>
+              <button onClick={() => navigate("/chat")}> Start Chat</button>
+              <button onClick={() => navigate("/feedback-history")}> Feedback History</button>
             
 
             {loadingSessions && <p>Loading feedback sessions...</p>}

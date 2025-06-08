@@ -12,14 +12,14 @@ const Header = ({ user, onLogout }) => {
     <header className="header">
       <div className="header-left">
         {showBackButton && (
-          <button className="back-btn" onClick={() => navigate(-1)}>🔙 Back</button>
+          <button className="back-btn" onClick={() => navigate(-1)}> Back</button>
         )}
-        <h3>AI Call Center</h3>
+        <h4>AI Call Center</h4>
       </div>
 
       <div className="header-right">
         <span>{user?.name} ({user?.role})</span>
-        <button className="logout-btn" onClick={onLogout}>🚪 Logout</button>
+        <button className="logout-btn" onClick={onLogout}> Logout</button>
       </div>
     </header>
   );

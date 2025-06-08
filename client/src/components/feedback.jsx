@@ -39,7 +39,7 @@ const Feedback = () => {
         setFeedback(feedbackRes.data.feedback);
         setSession(sessionRes.data);
       } catch (err) {
-        console.error("❌ Error loading feedback or session:", err);
+        console.error("Error loading feedback or session:", err);
         setError("Unable to load feedback or session");
       } finally {
         setLoading(false);
@@ -56,7 +56,7 @@ const Feedback = () => {
     <div>
       <Header user={user} onLogout={onLogout} />
       <div className="feedback-container">
-        <h2>📝 Session Feedback</h2>
+        <h2>Session Feedback</h2>
 
         {feedback?.score !== undefined && (
           <div className="feedback-score">
@@ -73,7 +73,7 @@ const Feedback = () => {
 
         {Array.isArray(feedback?.suggestions) && feedback.suggestions.length > 0 && (
           <div className="feedback-section">
-            <h3>🛠️ Suggestions</h3>
+            <h3> Suggestions</h3>
             <ul>{feedback.suggestions.map((s, i) => <li key={i}>{s}</li>)}</ul>
           </div>
         )}
@@ -95,7 +95,7 @@ const Feedback = () => {
         {session?.messages?.length > 0 && (
           <>
             <button onClick={() => setShowTranscript(prev => !prev)} style={{ margin: "1em 0" }}>
-              {showTranscript ? "🙈 Hide Transcript" : "📄 Show Transcript"}
+              {showTranscript ? " Hide Transcript" : " Show Transcript"}
             </button>
 
             {showTranscript && (
@@ -113,7 +113,7 @@ const Feedback = () => {
           </>
         )}
 
-        <button onClick={() => navigate("/dashboard")}>🔙 Back to Dashboard</button>
+        <button onClick={() => navigate("/dashboard")}> Back to Dashboard</button>
       </div>
     </div>
   );
