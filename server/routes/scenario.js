@@ -4,7 +4,7 @@ const router = express.Router();
 const { authenticate, requireRole } = require("../middleware/auth");
 const Scenario = require("../models/Scenario");
 
-// ✅ Create a scenario (Admin only)
+//  Create a scenario (Admin only)
 router.post("/", authenticate, requireRole("admin"), async (req, res) => {
   try {
     const { title, description, assignedTo } = req.body;
@@ -17,7 +17,7 @@ router.post("/", authenticate, requireRole("admin"), async (req, res) => {
   }
 });
 
-// ✅ Get all scenarios (Authenticated users)
+//  Get all scenarios (Authenticated users)
 router.get("/", authenticate, async (req, res) => {
   try {
     const scenarios = await Scenario.find();
@@ -28,7 +28,7 @@ router.get("/", authenticate, async (req, res) => {
   }
 });
 
-// ✅ Delete a scenario (Admin only)
+//  Delete a scenario (Admin only)
 router.delete("/:id", authenticate, requireRole("admin"), async (req, res) => {
   try {
     const deleted = await Scenario.findByIdAndDelete(req.params.id);

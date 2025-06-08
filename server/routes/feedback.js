@@ -5,7 +5,7 @@ const OpenAI = require("openai");
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// 🔍 GET feedback for a specific session
+//  GET feedback for a specific session
 router.get("/:sessionId", async (req, res) => {
   try {
     const { sessionId } = req.params;
@@ -15,16 +15,16 @@ router.get("/:sessionId", async (req, res) => {
 
     return res.status(200).json({ feedback: session.feedback });
   } catch (err) {
-    console.error("❌ Error fetching feedback:", err);
+    console.error(" Error fetching feedback:", err);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// 🧠 POST feedback generation for a specific session
+//  POST feedback generation for a specific session
 router.post("/:sessionId", async (req, res) => {
   try {
     const { sessionId } = req.params;
-    console.log("➡️ Generating feedback for session:", sessionId);
+    console.log(" Generating feedback for session:", sessionId);
 
     const session = await ChatSession.findById(sessionId).populate("scenario");
     if (!session) return res.status(404).json({ error: "Session not found" });
@@ -75,10 +75,10 @@ Please provide structured feedback in the following format:
     session.endedAt = new Date();
     await session.save();
 
-    console.log("✅ Feedback generated and saved");
+    console.log(" Feedback generated and saved");
     return res.status(200).json({ message: "Feedback saved", feedback: feedbackObject });
   } catch (err) {
-    console.error("❌ Error generating feedback:", err);
+    console.error(" Error generating feedback:", err);
     return res.status(500).json({ error: "Failed to generate feedback", details: err.message });
   }
 });

@@ -10,31 +10,31 @@ const { getBotReply } = require("../utils/openai");
 const OpenAI = require("openai");
 require("dotenv").config();
 
-// ✅ OpenAI setup
+//  OpenAI setup
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ✅ Logger Middleware
+//  Logger Middleware
 router.use((req, res, next) => {
   console.log(`[Chat Route] ${req.method} ${req.originalUrl}`);
   next();
 });
 
-// ✅ Health check
+//  Health check
 router.get("/ping", (req, res) => {
-  res.send("Chat route is active ✅");
+  res.send("Chat route is active ");
 });
 
-// ✅ Start a new chat session
+//  Start a new chat session
 router.post("/start", authenticate, async (req, res) => {
   try {
     const { scenarioId } = req.body;
-    console.log("➡️ Starting new session with scenarioId:", scenarioId);
+    console.log(" Starting new session with scenarioId:", scenarioId);
 
     const scenario = await Scenario.findById(scenarioId);
     if (!scenario) {
-      console.log("❌ Scenario not found for ID:", scenarioId);
+      console.log(" Scenario not found for ID:", scenarioId);
       return res.status(404).json({ error: "Scenario not found" });
     }
 
@@ -51,15 +51,15 @@ router.post("/start", authenticate, async (req, res) => {
     });
 
     await newSession.save();
-    console.log("✅ Chat session created:", newSession._id);
+    console.log(" Chat session created:", newSession._id);
     res.status(201).json(newSession);
   } catch (err) {
-    console.error("❌ Error starting chat session:", err);
+    console.error(" Error starting chat session:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// ✅ Send message and get AI reply
+//  Send message and get AI reply
 router.post("/:sessionId/message", authenticate, async (req, res) => {
   try {
     const { sessionId } = req.params;
@@ -69,12 +69,12 @@ router.post("/:sessionId/message", authenticate, async (req, res) => {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    console.log(`📩 Incoming message for sessionId=${sessionId}:`, message);
+    console.log(` Incoming message for sessionId=${sessionId}:`, message);
 
     const session = await ChatSession.findById(sessionId).populate("scenario");
 
     if (!session) {
-      console.log("❌ Chat session not found:", sessionId);
+      console.log(" Chat session not found:", sessionId);
       return res.status(404).json({ error: "Chat session not found" });
     }
 
@@ -89,13 +89,13 @@ router.post("/:sessionId/message", authenticate, async (req, res) => {
     const prompt = `
 You are simulating a realistic CUSTOMER in a call center training scenario. You must stay in character at all times.
 
-🧠 Scenario Description:
+ Scenario Description:
 ${session.scenario.description}
 
-📜 Conversation So Far:
+ Conversation So Far:
 ${conversationHistory}
 
-🎭 Customer Simulation Guidelines:
+ Customer Simulation Guidelines:
 - Respond naturally, with personality and human emotion.
 - Don't be too robotic or too perfect.
 - If the CSR is unclear or makes a mistake, respond accordingly.
@@ -108,7 +108,7 @@ ${conversationHistory}
 Now continue the conversation. As the CUSTOMER, reply realistically.
 `;
 
-    console.log("🧠 Prompt to OpenAI:", prompt);
+    console.log(" Prompt to OpenAI:", prompt);
 
     let botReply = "";
     try {
@@ -120,23 +120,23 @@ Now continue the conversation. As the CUSTOMER, reply realistically.
 
       botReply = completion.choices[0].message.content.trim();
     } catch (openaiErr) {
-      console.error("❌ OpenAI API error:", openaiErr.message);
+      console.error(" OpenAI API error:", openaiErr.message);
       return res.status(500).json({ error: "AI service unavailable" });
     }
 
-    console.log("🤖 AI Reply:", botReply);
+    console.log(" AI Reply:", botReply);
 
     session.messages.push({ sender: "bot", text: botReply });
     await session.save();
 
-    console.log("💾 Chat session updated:", session._id);
+    console.log(" Chat session updated:", session._id);
 
     res.status(200).json({
       reply: botReply,
       session,
     });
   } catch (err) {
-    console.error("❌ Server error:", err.message);
+    console.error(" Server error:", err.message);
     res.status(500).json({ error: "Server error" });
   }
 });

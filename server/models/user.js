@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['admin', 'csr'], default: 'csr' },
 }, { timestamps: true });
 
-// ❌ REMOVE this block to avoid double hashing
+//  REMOVE this block to avoid double hashing
 // userSchema.pre('save', async function (next) {
 //   if (!this.isModified('password')) return next();
 //   try {
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
 
 // ✅ Compare password method with logging
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  console.log("🔐 Checking password...");
+  console.log(" Checking password...");
   console.log("Entered password:", candidatePassword);
   console.log("Stored (hashed) password:", this.password);
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
